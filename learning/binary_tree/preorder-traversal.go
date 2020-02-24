@@ -41,3 +41,45 @@ func preorderTraversal(root *TreeNode) []int {
 
     return res
 }
+
+
+// iteratively
+func preorderTraversal(root *TreeNode) []int {
+    var rightStack []*TreeNode
+    var res []int
+	// if root == nil {
+	// return res
+	// }
+	// res = append(res, root.Val)
+
+    for curNode := root; curNode != nil; {
+        res = append(res, curNode.Val)
+        if curNode.Left != nil {
+            if curNode.Right != nil {
+                rightStack = append(rightStack, curNode.Right)
+            }
+            curNode = curNode.Left
+            // res = append(res, curNode.Val)
+
+        } else { //no left node, begin to traversal right node
+            if curNode.Right != nil {
+                curNode = curNode.Right
+                // res = append(res, curNode.Val)
+            } else {
+                // traversal left last node
+                if len(rightStack) == 0 {
+                    break
+                } else {
+                    curNode = rightStack[len(rightStack)-1]
+                    rightStack = rightStack[:len(rightStack)-1]
+                    // res = append(res, curNode.Val)
+                }
+
+            }
+
+        }
+
+    }
+    return res
+}
+
